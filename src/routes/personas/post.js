@@ -4,29 +4,47 @@ const mysqlConnection = require('../../conexionDB')
 
 // crear paciente
 router.post('/crear/paciente', (request, response) => {
-  const { dni, nombres, apellidos, nacionalidad, edad, fechaNacimiento, sexo, estadoCivil, numArea, numTelefono, tipoTelefono, desTelefono, dirPersona, desDireccion, corrPersona } = request.body
+  const { dni, nombres, apellidos, nacionalidad, edad, fechaNacimiento, sexo, estadoCivil, numAreaF, numTelefonoF, desTelefonoF, numAreaC, numTelefonoC, desTelefonoC, dirPersona, desDireccion, corrPersona } = request.body
 
-  const sql = 'SET @tipoRegistro="P"; SET @dni=?; SET @nombres=?; SET @apellidos=?; SET @nacionalidad=?; SET @edad=?; SET @fechaNacimiento=?; SET @sexo=?; SET @estadoCivil=?; SET @numArea=?; SET @numTelefono=?; SET @tipoTelefono=?; SET @desTelefono=?; SET @dirPersona=?; SET @desDireccion=?; SET @corrPersona=?; SET @codCargo=0; SET @fotoEmpleado=0; SET @fechaContratacion="2000-01-01"; CALL sp_insert_persona(@tipoRegistro, @dni, @nombres, @apellidos, @nacionalidad, @edad, @fechaNacimiento, @sexo, @estadoCivil, @numArea, @numTelefono, @tipoTelefono, @desTelefono, @dirPersona, @desDireccion, @corrPersona, @codCargo, @fotoEmpleado, @fechaContratacion);'
+  const sql = 'SET @tipoRegistro="P"; SET @dni=?; SET @nombres=?; SET @apellidos=?; SET @nacionalidad=?; SET @edad=?; SET @fechaNacimiento=?; SET @sexo=?; SET @estadoCivil=?; SET @numAreaF=?; SET @numTelefonoF=?; SET @desTelefonoF=?; SET @numAreaC=?; SET @numTelefonoC=?; SET @desTelefonoC=?; SET @dirPersona=?; SET @desDireccion=?; SET @corrPersona=?; SET @codCargo=0; SET @fotoEmpleado=0; SET @fechaContratacion="2000-01-01"; CALL sp_insert_persona(@tipoRegistro, @dni, @nombres, @apellidos, @nacionalidad, @edad, @fechaNacimiento, @sexo, @estadoCivil, @numAreaF, @numTelefonoF, @desTelefonoF, @numAreaC, @numTelefonoC, @desTelefonoC, @dirPersona, @desDireccion, @corrPersona, @codCargo, @fotoEmpleado, @fechaContratacion);'
 
-  mysqlConnection.query(sql, [dni, nombres, apellidos, nacionalidad, edad, fechaNacimiento, sexo, estadoCivil, numArea, numTelefono, tipoTelefono, desTelefono, dirPersona, desDireccion, corrPersona], (error, rows, fields) => {
+  mysqlConnection.query(sql, [dni, nombres, apellidos, nacionalidad, edad, fechaNacimiento, sexo, estadoCivil, numAreaF, numTelefonoF, desTelefonoF, numAreaC, numTelefonoC, desTelefonoC, dirPersona, desDireccion, corrPersona], (error, rows, fields) => {
     if (!error) {
-      response.status(201).send({
-        status: 201,
-        mensaje: 'Registro creado exitaxamente'
+      response.json({
+        statusCode: 201,
+        message: 'Created'
       })
-    } else console.log(error)
+    } else {
+      console.log(error)
+      response.json({
+        message: 'Not Acceptable',
+        statusCode: 409,
+        error: error.message
+      })
+    }
   })
 })
 
 // crear empleado
 router.post('/crear/empleado', (request, response) => {
-  const { dni, nombres, apellidos, nacionalidad, edad, fechaNacimiento, sexo, estadoCivil, numArea, numTelefono, tipoTelefono, desTelefono, dirPersona, desDireccion, corrPersona, codCargo, fotoEmpleado, fechaContratacion } = request.body
+  const { dni, nombres, apellidos, nacionalidad, edad, fechaNacimiento, sexo, estadoCivil, numAreaF, numTelefonoF, desTelefonoF, numAreaC, numTelefonoC, desTelefonoC, dirPersona, desDireccion, corrPersona, codCargo, fotoEmpleado, fechaContratacion } = request.body
 
-  const sql = 'SET @tipoRegistro=E; SET @dni=?; SET @nombres=?; SET @apellidos=?; SET @nacionalidad=?; SET @edad=?; SET @fechaNacimiento=?; SET @sexo=?; SET @estadoCivil=?; SET @numArea=?; SET @numTelefono=?; SET @tipoTelefono=?; SET @desTelefono=?; SET @dirPersona=?; SET @desDireccion=?; SET @corrPersona=?; SET @codCargo=?; SET @fotoEmpleado=?; SET @fechaContratacion=?; CALL sp_insert_persona(@tipoRegistro, @dni, @nombres, @apellidos, @nacionalidad, @edad, @fechaNacimiento, @sexo, @estadoCivil, @numArea, @numTelefono, @tipoTelefono, @desTelefono, @dirPersona, @desDireccion, @corrPersona, @codCargo, @fotoEmpleado, @fechaContratacion);'
+  const sql = 'SET @tipoRegistro="E"; SET @dni=?; SET @nombres=?; SET @apellidos=?; SET @nacionalidad=?; SET @edad=?; SET @fechaNacimiento=?; SET @sexo=?; SET @estadoCivil=?; SET @numAreaF=?; SET @numTelefonoF=?; SET @desTelefonoF=?; SET @numAreaC=?; SET @numTelefonoC=?; SET @desTelefonoC=?; SET @dirPersona=?; SET @desDireccion=?; SET @corrPersona=?; SET @codCargo=?; SET @fotoEmpleado=?; SET @fechaContratacion=?; CALL sp_insert_persona(@tipoRegistro, @dni, @nombres, @apellidos, @nacionalidad, @edad, @fechaNacimiento, @sexo, @estadoCivil, @numAreaF, @numTelefonoF, @desTelefonoF, @numAreaC, @numTelefonoC, @desTelefonoC, @dirPersona, @desDireccion, @corrPersona, @codCargo, @fotoEmpleado, @fechaContratacion);'
 
-  mysqlConnection.query(sql, [dni, nombres, apellidos, nacionalidad, edad, fechaNacimiento, sexo, estadoCivil, numArea, numTelefono, tipoTelefono, desTelefono, dirPersona, desDireccion, corrPersona, codCargo, fotoEmpleado, fechaContratacion], (error, rows, fields) => {
-    if (!error) response.json(rows)
-    else console.log(error)
+  mysqlConnection.query(sql, [dni, nombres, apellidos, nacionalidad, edad, fechaNacimiento, sexo, estadoCivil, numAreaF, numTelefonoF, desTelefonoF, numAreaC, numTelefonoC, desTelefonoC, dirPersona, desDireccion, corrPersona, codCargo, fotoEmpleado, fechaContratacion], (error, rows, fields) => {
+    if (!error) {
+      response.json({
+        statusCode: 201,
+        message: 'Created'
+      })
+    } else {
+      console.log(error)
+      response.json({
+        message: 'Not Acceptable',
+        statusCode: 409,
+        error: error.message
+      })
+    }
   })
 })
 

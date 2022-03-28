@@ -5,22 +5,44 @@ const mysqlConnection = require('../../conexionDB')
 // eliminar paciente
 router.delete('/delete/paciente/:cod', (request, response) => {
   const { cod } = request.params
-  const sql = 'SET @cod=?; SET @str=paciente; CALL sp_delete_persona(@str, @cod,);'
+  const sql = 'SET @cod=?; CALL sp_delete_persona("persona", @cod);'
 
   mysqlConnection.query(sql, cod, (error, rows, fields) => {
-    if (!error) response.json(rows)
-    else console.log(error)
+    if (!error) {
+      response.json({
+        statusCode: 200,
+        message: 'OK'
+      })
+    } else {
+      console.log(error)
+      response.json({
+        message: 'Not Acceptable',
+        statusCode: 409,
+        error: error.message
+      })
+    }
   })
 })
 
 // eliminar empleado
 router.delete('/delete/empleado/:cod', (request, response) => {
   const { cod } = request.params
-  const sql = 'SET @cod=?; SET @str=empleado; CALL sp_delete_persona(@str, @cod,);'
+  const sql = 'SET @cod=?; CALL sp_delete_persona("persona", @cod);'
 
   mysqlConnection.query(sql, cod, (error, rows, fields) => {
-    if (!error) response.json(rows)
-    else console.log(error)
+    if (!error) {
+      response.json({
+        statusCode: 200,
+        message: 'OK'
+      })
+    } else {
+      console.log(error)
+      response.json({
+        message: 'Not Acceptable',
+        statusCode: 409,
+        error: error.message
+      })
+    }
   })
 })
 
