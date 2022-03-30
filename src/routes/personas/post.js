@@ -50,46 +50,89 @@ router.post('/crear/empleado', (request, response) => {
 
 // crear teléfono
 router.post('/crear/telefono', (request, response) => {
-  const { numArea, numTelefono, tipoTelefono, desTelefono } = request.body
-  const sql = 'SET @str=crear; SET @cod=0; SET @numArea=?; SET @numTelefono=?; SET @tipoTelefono=?; SET @desTelefono=?; CALL sp_crud_telefono(@str, @cod, @numArea, @numTelefono, @tipoTelefono, @desTelefono);'
+  const { cod, numArea, numTelefono, tipoTelefono, desTelefono } = request.body
+  const sql = 'SET @str="crear"; SET @cod=?; SET @numArea=?; SET @numTelefono=?; SET @tipoTelefono=?; SET @desTelefono=?; CALL sp_crud_telefono(@str, @cod, @numArea, @numTelefono, @tipoTelefono, @desTelefono);'
 
-  mysqlConnection.query(sql, [numArea, numTelefono, tipoTelefono, desTelefono], (error, rows, fields) => {
-    if (!error) response.json(rows)
-    else console.log(error)
+  mysqlConnection.query(sql, [cod, numArea, numTelefono, tipoTelefono, desTelefono], (error, rows, fields) => {
+    if (!error) {
+      response.json({
+        statusCode: 201,
+        message: 'Created'
+      })
+    } else {
+      console.log(error)
+      response.json({
+        message: 'Not Acceptable',
+        statusCode: 409,
+        error: error.message
+      })
+    }
   })
 })
 
 // crear dirrección
 router.post('/crear/direccion', (request, response) => {
-  const { dirPersona, desDireccion } = request.body
-  const sql = 'SET @str=crear; SET @cod=0; SET @dirPersona=?; SET @numTelefono=?; SET @tipoTelefono=?; SET @desTelefono=?; CALL sp_crud_direccion(@str, @cod, @dirPersona, @desDireccion);'
+  const { cod, dirPersona, desDireccion } = request.body
+  const sql = 'SET @str="crear"; SET @cod=?; SET @dirPersona=?; SET @numTelefono=?; SET @tipoTelefono=?; SET @desTelefono=?; CALL sp_crud_direccion(@str, @cod, @dirPersona, @desDireccion);'
 
-  mysqlConnection.query(sql, [dirPersona, desDireccion], (error, rows, fields) => {
-    if (!error) response.json(rows)
-    else console.log(error)
+  mysqlConnection.query(sql, [cod, dirPersona, desDireccion], (error, rows, fields) => {
+    if (!error) {
+      response.json({
+        statusCode: 201,
+        message: 'Created'
+      })
+    } else {
+      console.log(error)
+      response.json({
+        message: 'Not Acceptable',
+        statusCode: 409,
+        error: error.message
+      })
+    }
   })
 })
 
 // crear correo
 router.post('/crear/correo', (request, response) => {
-  const { corrPersona } = request.body
-  const sql = 'SET @str=crear; SET @cod=0; SET @corrPersona=?; CALL sp_crud_correo(@str, @cod, @corrPersona);'
+  const { cod, corrPersona } = request.body
+  const sql = 'SET @str="crear"; SET @cod=?; SET @corrPersona=?; CALL sp_crud_correo(@str, @cod, @corrPersona);'
 
-  mysqlConnection.query(sql, [corrPersona], (error, rows, fields) => {
-    if (!error) response.json(rows)
-    else console.log(error)
+  mysqlConnection.query(sql, [cod, corrPersona], (error, rows, fields) => {
+    if (!error) {
+      response.json({
+        statusCode: 201,
+        message: 'Created'
+      })
+    } else {
+      console.log(error)
+      response.json({
+        message: 'Not Acceptable',
+        statusCode: 409,
+        error: error.message
+      })
+    }
   })
 })
 
 // crear cargo
 router.post('/crear/cargo', (request, response) => {
   const { nombreCargo, desCargo } = request.body
-
-  const sql = 'SET @str=crear; SET @cod=0; SET @nombreCargo=?; SET @desCargo=?; CALL sp_crud_cargo(@str, @cod, @nombreCargo, @desCargo);'
+  const sql = 'SET @str="crear"; SET @cod=0; SET @nombreCargo=?; SET @desCargo=?; CALL sp_crud_cargo(@str, @cod, @nombreCargo, @desCargo);'
 
   mysqlConnection.query(sql, [nombreCargo, desCargo], (error, rows, fields) => {
-    if (!error) response.json(rows)
-    else console.log(error)
+    if (!error) {
+      response.json({
+        statusCode: 201,
+        message: 'Created'
+      })
+    } else {
+      console.log(error)
+      response.json({
+        message: 'Not Acceptable',
+        statusCode: 409,
+        error: error.message
+      })
+    }
   })
 })
 

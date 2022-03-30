@@ -2,6 +2,15 @@ const express = require('express')
 const router = express.Router()
 const mysqlConnection = require('../../conexionDB')
 
+// obetener todas las personas
+router.get('/mostrar/personas', (request, response) => {
+  const sql = 'CALL sp_select_persona("personas",0)'
+  mysqlConnection.query(sql, (error, rows, fields) => {
+    if (!error) response.send(rows)
+    else console.log(error)
+  })
+})
+
 // obtener todos los pacientes
 router.get('/mostrar/pacientes', (request, response) => {
   const sql = 'CALL sp_select_persona("pacientes",0)'
@@ -101,6 +110,16 @@ router.get('/mostrar/correos/:cod', (request, response) => {
 router.get('/mostrar/cargos', (request, response) => {
   const sql = 'CALL sp_select_informacion("cargos",0)'
   mysqlConnection.query(sql, (error, rows, fields) => {
+    if (!error) response.send(rows)
+    else console.log(error)
+  })
+})
+
+// obtener un cargo por su código
+router.get('/mostrar/cargos/:cod', (request, response) => {
+  const { cod } = request.params
+  const sql = 'CALL sp_select_informacion("cargo", ?);'
+  mysqlConnection.query(sql, cod, (error, rows, fields) => {
     if (!error) response.send(rows)
     else console.log(error)
   })
