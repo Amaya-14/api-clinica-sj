@@ -48,4 +48,73 @@ router.put('/actualizar/material/:cod', (request, response) => {
   })
 })
 
+// actualizar tipo de medicamento
+router.put('/actualizar/tipo/medicamento/:cod', (request, response) => {
+  const { cod } = request.params
+  const { nombre, descripcion } = request.body
+  const sql = 'SET @cod=?; SET @nombre=?; SET @descripcion=?; CALL sp_alm_insert_tipos_unidades("updateTipomedicamentos", @cod, @nombre,  @descripcion);'
+
+  mysqlConnection.query(sql, [cod, nombre, descripcion], (error, rows, fields) => {
+    if (!error) {
+      response.json({
+        statusCode: 200,
+        message: 'OK'
+      })
+    } else {
+      console.log(error)
+      response.json({
+        message: 'Not Modified',
+        statusCode: 304,
+        error: error.message
+      })
+    }
+  })
+})
+
+// actualizar unidad presentacion
+router.put('/actualizar/unidad/presentacion/:cod', (request, response) => {
+  const { cod } = request.params
+  const { nombre } = request.body
+  const sql = 'SET @cod=?; SET @nombre=?; SET @descripcion="---"; CALL sp_alm_insert_tipos_unidades("updateUnidades", @cod, @nombre,  @descripcion);'
+
+  mysqlConnection.query(sql, [cod, nombre], (error, rows, fields) => {
+    if (!error) {
+      response.json({
+        statusCode: 200,
+        message: 'OK'
+      })
+    } else {
+      console.log(error)
+      response.json({
+        message: 'Not Modified',
+        statusCode: 304,
+        error: error.message
+      })
+    }
+  })
+})
+
+// actualizar tipo de material
+router.put('/actualizar/tipo/material/:cod', (request, response) => {
+  const { cod } = request.params
+  const { nombre, descripcion } = request.body
+  const sql = 'SET @cod=?; SET @nombre=?; SET @descripcion=?; CALL sp_alm_insert_tipos_unidades("updateTipomateriales", @cod, @nombre,  @descripcion);'
+
+  mysqlConnection.query(sql, [cod, nombre, descripcion], (error, rows, fields) => {
+    if (!error) {
+      response.json({
+        statusCode: 200,
+        message: 'OK'
+      })
+    } else {
+      console.log(error)
+      response.json({
+        message: 'Not Modified',
+        statusCode: 304,
+        error: error.message
+      })
+    }
+  })
+})
+
 module.exports = router
