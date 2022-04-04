@@ -1,11 +1,11 @@
 const express = require('express')
 const app = express()
 
-// Configuración
+/* Configuración */
 app.set('port', process.env.PORT || 3001)
 app.use(express.json())
 
-// Rutas
+/* Rutas */
 app.use(require('./routes/personas/get'))
 app.use(require('./routes/personas/post'))
 app.use(require('./routes/personas/put'))
@@ -21,7 +21,12 @@ app.use(require('./routes/almacen/post'))
 app.use(require('./routes/almacen/put'))
 app.use(require('./routes/almacen/delete'))
 
-// Iniciando el servidor
+app.use(require('./routes/seguridad/post'))
+app.use(require('./routes/seguridad/get'))
+app.use(require('./routes/seguridad/put'))
+app.use(require('./routes/seguridad/delete'))
+
+/* Iniciando el servidor */
 app.listen(app.get('port'), () => {
   console.log(`Server on port: ${app.get('port')}`)
 })
